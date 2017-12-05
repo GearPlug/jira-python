@@ -39,7 +39,7 @@ class Client(object):
         Returns:
 
         """
-        return self._get(self.API_URL + 'mypermissions', params)
+        return self._get(self.API_URL + 'mypermissions', params=params)
 
     def get_all_projects(self, params=None):
         """Returns all projects visible for the currently logged in user, ie. all the projects the user has either
@@ -79,7 +79,7 @@ class Client(object):
         """
         return self._get(self.API_URL + 'issue/{}'.format(issue_id), params=params)
 
-    def create_issue(self, data):
+    def create_issue(self, data, params=None):
         """Creates an issue or a sub-task from a JSON representation.
 
         You can provide two parameters in request's body: update or fields. The fields, that can be set on an issue
@@ -94,11 +94,12 @@ class Client(object):
 
         Args:
             data:
+            params:
 
         Returns:
 
         """
-        return self._post(self.API_URL + 'issue', data=data)
+        return self._post(self.API_URL + 'issue', data=data, params=params)
 
     def delete_issue(self, issue_id, params=None):
         """Deletes an individual issue.
@@ -189,9 +190,9 @@ class Client(object):
         if status_code == 400:
             raise InvalidIDError(message)
         if status_code == 401:
-            raise InvalidIDError(message)
+            raise NotAuthenticatedError(message)
         if status_code == 403:
-            raise InvalidIDError(message)
+            raise PermissionError(message)
         if status_code == 404:
             raise NotFoundIDError(message)
         raise UnknownError(message)
