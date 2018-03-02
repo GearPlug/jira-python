@@ -177,7 +177,10 @@ class Client(object):
     def _parse(self, response):
         status_code = response.status_code
         if 'application/json' in response.headers['Content-Type']:
-            r = response.json()
+            try:
+                r = response.json()
+            except Exception as e:
+                r = None
         else:
             r = response.text
         if status_code in (200, 201):
