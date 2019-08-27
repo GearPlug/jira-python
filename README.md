@@ -1,6 +1,10 @@
 # jira-python
 
-jira-python is an API wrapper for JIRA written in Python
+jira-python is an API wrapper for Jira Software written in Python.
+
+This library uses API version 2 and Basic Authentication for requests.
+
+If you are looking for Jira Software Cloud using OAuth 2.0 (3LO) and the latest API version: https://github.com/ingmferrer/jira-cloud-python
 
 ## Installing
 ```
