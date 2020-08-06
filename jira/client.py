@@ -54,6 +54,26 @@ class Client(object):
         """
         return self._get(self.API_URL + 'project', params=params)
 
+    def get_project_issues(self, project=None, params=None):
+        """Return all projects issues.
+        To obtain a key for the first issue use get_project_issues("MYPROJ")[0]['key']
+
+        Args:
+            params:
+
+        Returns:
+            List of all issues that belong to a project.
+        """
+        all_issues = list()
+        start_str=''
+        while True:
+            issues = self._get(self.API_URL + 'search?jql=project="' + project + '"' + start_str, params=params)
+            all_issues.extend(issues['issues'])
+            start_str = '&startAt='+str(int(issues['startAt']) + int(issues['maxResults']))
+            if int(issues['startAt']) + int(issues['maxResults']) >= int(issues['total']): break
+        #if not project
+        return all_issues
+    
     def get_issue(self, issue_id, params=None):
         """Returns a full representation of the issue for the given issue key.
 
@@ -78,6 +98,18 @@ class Client(object):
 
         """
         return self._get(self.API_URL + 'issue/{}'.format(issue_id), params=params)
+
+    def get_issue_worklogs(self, issue=None, params=None):
+        """Return all issue worklogs.
+
+        Args:
+            params:
+
+        Returns:
+            List of all worklogs that belong to an issue.
+        """
+        worklog = self._get(self.API_URL + 'issue/' + issue + '/worklog/', params=params)
+        return worklog['worklogs']
 
     def create_issue(self, data, params=None):
         """Creates an issue or a sub-task from a JSON representation.
