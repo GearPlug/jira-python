@@ -101,7 +101,6 @@ class Client(object):
 
     def get_issue_worklogs(self, issue=None, params=None):
         """Return all issue worklogs.
-        To obtain a key for the first issue use get_project_issues("MYPROJ")[0]['key']
 
         Args:
             params:
